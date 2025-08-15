@@ -41,12 +41,12 @@ void BME68X::read(JsonObject &readingObj)
 {
     if (m_sensor.run())
     {
-        readingObj["temperature"] = m_sensor.temperature;
-        readingObj["pressure"] = m_sensor.pressure;
-        readingObj["humidity"] = m_sensor.humidity;
+        readingObj["Temperature"] = m_sensor.temperature;
+        readingObj["Pressure"] = m_sensor.pressure;
+        readingObj["Humidity"] = m_sensor.humidity;
         if (m_sensor.iaqAccuracy != 0)
         {
-            readingObj["iaq"] = m_sensor.iaq;
+            readingObj["IAQ"] = m_sensor.iaq;
         }
     }
     else
@@ -62,6 +62,11 @@ void BME68X::loop()
 bool BME68X::isInitialized()
 {
     return m_isInitialized;
+}
+
+const std::vector<SensorType> BME68X::getSensorOutputs()
+{
+    return {SensorType::Temperature, SensorType::Humidity, SensorType::Pressure, SensorType::IAQ};
 }
 
 void BME68X::checkIaqSensorStatus()

@@ -39,7 +39,15 @@ void Communication::mqttConnect()
     Serial.println("[MQTT] Connecting...");
     while (!m_mqttClient.connected())
     {
-        m_mqttClient.connect(m_clientId.c_str());
+        JsonDocument doc;
+        doc["test_name"] = ""; // We don't know test name at this moment.
+        JsonObject data = doc["data"].to<JsonObject>();
+        data["status"] = "OFF";
+
+        String doc_string;
+        serializeJson(doc, doc_string);
+
+        m_mqttClient.connect(m_clientId.c_str(), ("data/" + getClientId()).c_str(), 1, false, doc_string.c_str());
         delay(1000);
     }
     Serial.println("[MQTT] Connected");
@@ -65,6 +73,7 @@ void Communication::connect()
         m_mqttClient.subscribe("configuration");
     }
 }
+
 void Communication::mqttCallback(char *topic, unsigned char *payload, unsigned int length)
 {
     String topicStr = String(topic);
@@ -76,15 +85,25 @@ void Communication::mqttCallback(char *topic, unsigned char *payload, unsigned i
         m_deviceConfig->initConfig(doc);
         m_mqttClient.unsubscribe("configuration");
         m_mqttClient.subscribe(("cmd/" + getClientId() + "/in").c_str());
+
+        JsonDocument doc2;
+        doc2["test_name"] = m_deviceConfig->getTestName();
+        JsonObject data = doc2["data"].to<JsonObject>();
+        data["status"] = "ON";
+
+        String doc_string;
+        serializeJson(doc2, doc_string);
+
+        m_mqttClient.publish(("data/" + getClientId()).c_str(), doc_string.c_str());
     }
     if (topicStr == "cmd/" + getClientId() + "/in")
     {
         JsonDocument doc;
         deserializeJson(doc, payload);
-        if (doc["cmd"].as<String>() == "get_params")
+        if (doc["cmd"].as<String>() == "getParams")
         {
         }
-        if (payloadStr.startsWith("set_params;"))
+        if (payloadStr.startsWith("setParams;"))
         {
         }
     }

@@ -17,8 +17,7 @@ class DeviceConfig
 {
 private:
     bool m_configured = false;
-    bool m_sendMLData = false;
-    bool m_sendSensorData = false;
+    bool m_sendData = false;
     bool m_getMLDataFromGateway = false;
     int m_actionInterval = 0;
     MLConfig m_mlConfig = MLConfig::OFF;
@@ -28,8 +27,7 @@ public:
     DeviceConfig();
     void initConfig(const JsonDocument &config);
     bool isConfigured() const { return m_configured; };
-    bool getSendMLData() const { return m_sendMLData; }
-    bool getSendSensorData() const { return m_sendSensorData; }
+    bool getSendData() const { return m_sendData; }
     bool getGetMLDataFromGateway() const { return m_getMLDataFromGateway; }
     int getActionInterval() const { return m_actionInterval; }
     MLConfig getMlConfig() const { return m_mlConfig; }

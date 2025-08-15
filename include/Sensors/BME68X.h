@@ -13,6 +13,7 @@ public:
     void read(JsonObject &readingObj) override;
     void loop() override;
     bool isInitialized() override;
+    const std::vector<SensorType> getSensorOutputs() override;
 
 private:
     void checkIaqSensorStatus();

@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
+#include <Utils.h>
 
 class SensorBase
 {
@@ -20,6 +21,7 @@ public:
     virtual void read(JsonObject &readingObj) = 0;
     virtual void loop() = 0;
     virtual bool isInitialized() = 0;
+    virtual const std::vector<SensorType> getSensorOutputs() = 0;
 };
 
 #endif

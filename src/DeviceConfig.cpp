@@ -17,10 +17,8 @@ DeviceConfig::DeviceConfig() {}
 
 void DeviceConfig::initConfig(const JsonDocument &config)
 {
-    if (config.containsKey("sendMLData"))
-        m_sendMLData = config["sendMLData"].as<bool>();
-    if (config.containsKey("sendSensorData"))
-        m_sendSensorData = config["sendSensorData"].as<bool>();
+    if (config.containsKey("sendData"))
+        m_sendData = config["sendData"].as<bool>();
     if (config.containsKey("getMLDataFromGateway"))
         m_getMLDataFromGateway = config["getMLDataFromGateway"].as<bool>();
     if (config.containsKey("actionInterval"))

@@ -51,6 +51,7 @@ public:
     std::shared_ptr<DeviceConfig> getDeviceConfig();
     String getClientId();
     void connect();
+    JsonDocument getJsonDocumentBase();
 
 private:
     void wifiConnect();
